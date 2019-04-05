@@ -1,29 +1,150 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <!-- 顶部导航 -->
+    <v-toolbar
+      class="topNav"
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      :color='baseColor'
+      dark
+      app
+      fixed>
+      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+        <span class="hidden-sm-and-down">{{ Brand }}</span>
+      </v-toolbar-title>
+      <v-tabs :color='baseColor' align-with-title>
+        <v-tab class="topTab" v-for="tab in tabs" :key="tab.title" :ripple='false' :to='tab.linkTo'>
+          <span>{{ tab.title }}</span>
+        </v-tab>
+      </v-tabs>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>fas fa-bell</v-icon>
+      </v-btn>
+      <v-btn icon>
+        <v-icon>fas fa-cog</v-icon>
+      </v-btn>
+    </v-toolbar>
+    <!-- 主内容 -->
+    <v-content class="white">
+      <v-container fluid fill-height style="padding:1px">
+          <router-view></router-view>
+      </v-container>
+    </v-content>
+    <!-- 右下悬浮控件 -->
+    <v-btn
+      fab
+      bottom
+      right
+      color="pink"
+      dark
+      fixed
+      @click="dialog = !dialog">
+      <v-icon>fas fa-comment-alt</v-icon>
+    </v-btn>
+    <v-dialog v-model="dialog" width="80%">
+      <v-card>
+        <v-card-title
+          class="grey lighten-4 py-4 title"
+        >
+          意见反馈
+        </v-card-title>
+        <!-- dialog -->
+        <v-container grid-list-sm class="pa-4">
+          <v-layout row wrap>
+            <v-flex xs12 align-center justify-space-between>
+              <v-layout align-center>
+                <v-avatar size="40px" class="mr-3">
+                  <img
+                    src="//ssl.gstatic.com/s2/oz/images/sge/grey_silhouette.png"
+                    alt=""
+                  >
+                </v-avatar>
+                <v-text-field
+                  placeholder="Name"
+                ></v-text-field>
+              </v-layout>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field
+                prepend-icon="fas fa-board"
+                placeholder="Company"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs6>
+              <v-text-field
+                placeholder="Job title"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                prepend-icon="fas fa-mail"
+                placeholder="Email"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                type="tel"
+                prepend-icon="fas fa-phone"
+                placeholder="(000) 000 - 0000"
+                mask="phone"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs12>
+              <v-text-field
+                prepend-icon="fas fa-note"
+                placeholder="Notes"
+              ></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-card-actions>
+          <v-btn flat color="primary">More</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
+          <v-btn flat @click="dialog = false">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+<script>
+export default {
+  data: () => ({
+    Brand: 'Capsule Explorer',
+    baseColor: 'blue darken-4',
+    dialog: false,
+    tabs: [
+      {
+        title: '存储',
+        linkTo: '/store'
+      },
+      {
+        title: '创作',
+        linkTo: '/studio'
+      },
+      {
+        title: '发现',
+        linkTo: '/news'
+      }
+    ]
+  }),
+  mounted () {
+    this.$router.push('/store')
   }
 }
+</script>
+<style lang="scss">
+  .v-toolbar {
+    .v-toolbar__content {
+      padding-left: 0;
+    }
+  }
+  .topTab {
+    span {
+      font-size: 16px;
+    }
+    width: 8em;
+  }
 </style>
