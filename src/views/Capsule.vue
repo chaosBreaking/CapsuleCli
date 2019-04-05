@@ -58,36 +58,48 @@
     <!-- 主内容 -->
       <v-layout column>
         <v-layout id="topCompLine">
-          <v-btn :color='topComponentColor'>新建文件夹</v-btn>
+          <v-btn :color='topComponentColor'>
+            <v-icon style="font-size:16px;margin-right:0.5em">fas fa-folder-plus</v-icon>
+            <span>新建文件夹</span>
+          </v-btn>
           <upload :color='topComponentColor'></upload>
-          <v-btn :color='topComponentColor'>导入</v-btn>
+          <v-btn :color='topComponentColor'>
+            <i class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe68c;</i>
+            导入</v-btn>
           <v-spacer></v-spacer>
           <search></search>
         </v-layout>
         <v-data-table
           id="fileList"
           :headers="headers"
-          :items="desserts"
+          :items="files"
           >
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.calories }}</td>
-            <td class="text-xs-right">{{ props.item.fat }}</td>
-            <td class="text-xs-right">{{ props.item.carbs }}</td>
-            <td class="text-xs-right">{{ props.item.protein }}</td>
-            <td class="justify-center layout px-0">
+            <td>{{ props.item.size }}</td>
+            <td class="text-xs-left">{{ props.item.modifiedAt }}</td>
+            <td class="text-xs-left">{{ props.item.hash }}</td>
+            <td class="justify-center">
               <v-icon
                 small
                 class="mr-2"
-                @click="editItem(props.item)"
+                @click="share(props.item)"
               >
-                edit
+                fas fa-share-square
               </v-icon>
               <v-icon
                 small
+                class="mr-2"
                 @click="deleteItem(props.item)"
               >
-                delete
+                fas fa-download
+              </v-icon>
+              <v-icon
+                small
+                class="mr-2"
+                @click="null"
+              >
+                fas fa-ellipsis-h
               </v-icon>
             </td>
           </template>
@@ -145,32 +157,28 @@ export default {
     ],
     headers: [
       {
-        text: 'Dessert (100g serving)',
-        align: 'left',
+        text: '文件名',
         sortable: false,
-        value: 'name'
+        value: 'fileName'
       },
-      { text: 'Calories', value: 'calories' },
-      { text: 'Fat (g)', value: 'fat' },
-      { text: 'Carbs (g)', value: 'carbs' },
-      { text: 'Protein (g)', value: 'protein' },
-      { text: 'Actions', value: 'name', sortable: false }
+      { text: '大小 ', value: 'size' },
+      { text: '修改日期 ', value: 'modifiedAt' },
+      { text: 'Hash', value: 'hash' },
+      { text: '操作', value: 'name', sortable: false }
     ],
-    desserts: [],
+    files: [],
     editedIndex: -1,
     editedItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      size: 0,
+      modifiedAt: 0,
+      hash: 0
     },
     defaultItem: {
       name: '',
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      size: 0,
+      modifiedAt: 0,
+      hash: 0
     }
   }),
   computed: {
@@ -191,91 +199,79 @@ export default {
 
   methods: {
     initialize () {
-      this.desserts = [
+      this.files = [
         {
           name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
+          size: 159,
+          modifiedAt: 6.0,
+          hash: 24,
         },
         {
           name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
+          size: 237,
+          modifiedAt: 9.0,
+          hash: 37,
         },
         {
           name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
+          size: 262,
+          modifiedAt: 16.0,
+          hash: 23,
         },
         {
           name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
+          size: 305,
+          modifiedAt: 3.7,
+          hash: 67,
         },
         {
           name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
+          size: 356,
+          modifiedAt: 16.0,
+          hash: 49,
         },
         {
           name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
+          size: 375,
+          modifiedAt: 0.0,
+          hash: 94,
         },
         {
           name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
+          size: 392,
+          modifiedAt: 0.2,
+          hash: 98,
         },
         {
           name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
+          size: 408,
+          modifiedAt: 3.2,
+          hash: 87,
         },
         {
           name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
+          size: 452,
+          modifiedAt: 25.0,
+          hash: 51,
         },
         {
           name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
+          size: 518,
+          modifiedAt: 26.0,
+          hash: 65,
         }
       ]
     },
 
     editItem (item) {
-      this.editedIndex = this.desserts.indexOf(item)
+      this.editedIndex = this.files.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
-
     deleteItem (item) {
-      const index = this.desserts.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
+      const index = this.files.indexOf(item)
+      confirm('Are you sure you want to delete this item?') && this.files.splice(index, 1)
     },
-
     close () {
       this.dialog = false
       setTimeout(() => {
@@ -283,12 +279,11 @@ export default {
         this.editedIndex = -1
       }, 300)
     },
-
     save () {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem)
+        Object.assign(this.files[this.editedIndex], this.editedItem)
       } else {
-        this.desserts.push(this.editedItem)
+        this.files.push(this.editedItem)
       }
       this.close()
     }

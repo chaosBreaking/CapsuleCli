@@ -4,6 +4,7 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import './assets/icon/iconfont.css'
 Vue.config.productionTip = false
 Vue.use(Vuetify, {
   iconfont: 'fa'

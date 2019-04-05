@@ -18,9 +18,9 @@
       </v-tabs>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <v-icon>fas fa-bell</v-icon>
+        <v-icon>far fa-bell</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn>
         <v-icon>fas fa-cog</v-icon>
       </v-btn>
     </v-toolbar>
@@ -121,8 +121,8 @@ export default {
         linkTo: '/store'
       },
       {
-        title: '创作',
-        linkTo: '/studio'
+        title: '主页',
+        linkTo: '/home'
       },
       {
         title: '发现',
