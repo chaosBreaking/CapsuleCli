@@ -4,14 +4,14 @@
     <v-toolbar
       class="topNav"
       :clipped-left="$vuetify.breakpoint.lgAndUp"
-      :color='baseColor'
-      dark
+      :color='theme.baseColor'
+      :dark='theme.isDark'
       app
       fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <span class="hidden-sm-and-down">{{ Brand }}</span>
+        <span class="hidden-sm-and-down" id="brand">{{ Brand }}</span>
       </v-toolbar-title>
-      <v-tabs :color='baseColor' align-with-title>
+      <v-tabs :color='theme.baseColor' align-with-title>
         <v-tab class="topTab" v-for="tab in tabs" :key="tab.title" :ripple='false' :to='tab.linkTo'>
           <span>{{ tab.title }}</span>
         </v-tab>
@@ -20,8 +20,8 @@
       <v-btn icon>
         <v-icon>far fa-bell</v-icon>
       </v-btn>
-      <v-btn>
-        <v-icon>fas fa-cog</v-icon>
+      <v-btn :color='theme.btnColor' outline round>
+        创作
       </v-btn>
     </v-toolbar>
     <!-- 主内容 -->
@@ -110,10 +110,11 @@
 </template>
 
 <script>
+const theme = require('./theme.js')
 export default {
   data: () => ({
-    Brand: 'Capsule Explorer',
-    baseColor: 'blue darken-4',
+    Brand: 'Capsule',
+    theme: theme.dark,
     dialog: false,
     tabs: [
       {
@@ -146,5 +147,8 @@ export default {
       font-size: 16px;
     }
     width: 8em;
+  }
+  #brand {
+    font-weight: 1000;
   }
 </style>

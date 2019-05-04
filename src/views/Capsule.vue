@@ -3,11 +3,11 @@
     <!-- 侧边导航 -->
     <v-navigation-drawer
       class="grey lighten-4"
+      mini-variant
       id="sideNav"
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       fixed
-      width=200px
       app>
       <v-list dense class="list">
         <template v-for="item in items">
@@ -56,74 +56,78 @@
       </v-list>
     </v-navigation-drawer>
     <!-- 主内容 -->
-      <v-layout column>
-        <v-layout id="topCompLine">
-          <v-btn :color='topComponentColor'>
-            <v-icon style="font-size:16px;margin-right:0.5em">fas fa-folder-plus</v-icon>
-            <span>新建文件夹</span>
-          </v-btn>
-          <upload :color='topComponentColor'></upload>
-          <v-btn :color='topComponentColor'>
-            <i class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe68c;</i>
-            导入</v-btn>
-          <v-spacer></v-spacer>
-          <search></search>
-        </v-layout>
-        <v-data-table
-          id="fileList"
-          :headers="headers"
-          :items="files"
-          >
-          <template v-slot:items="props">
-            <td>{{ props.item.name }}</td>
-            <td>{{ props.item.size }}</td>
-            <td class="text-xs-left">{{ props.item.modifiedAt }}</td>
-            <td class="text-xs-left">{{ props.item.hash }}</td>
-            <td class="justify-center">
-              <v-icon
-                small
-                class="mr-2"
-                @click="share(props.item)"
-              >
-                fas fa-share-square
-              </v-icon>
-              <v-icon
-                small
-                class="mr-2"
-                @click="deleteItem(props.item)"
-              >
-                fas fa-download
-              </v-icon>
-              <v-icon
-                small
-                class="mr-2"
-                @click="null"
-              >
-                fas fa-ellipsis-h
-              </v-icon>
-            </td>
-          </template>
-          <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
-          </template>
-        </v-data-table>
+    <v-layout column>
+      <v-layout id="topCompLine">
+        <v-btn :color='topComponentColor'>
+          <v-icon style="font-size:16px;margin-right:0.5em">fas fa-folder-plus</v-icon>
+          <span>新建文件夹</span>
+        </v-btn>
+        <Upload :color='topComponentColor'></Upload>
+        <v-btn :color='topComponentColor'>
+          <i class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe68c;</i>
+          导入
+        </v-btn>
+        <v-spacer></v-spacer>
+        <Search></Search>
       </v-layout>
+      <v-data-table
+        id="fileList"
+        :headers="headers"
+        :items="files"
+        >
+        <template v-slot:items="props">
+          <td>{{ props.item.name }}</td>
+          <td>{{ props.item.size }}</td>
+          <td class="text-xs-left">{{ props.item.modifiedAt }}</td>
+          <td class="text-xs-left">{{ props.item.hash }}</td>
+          <td class="justify-center">
+            <v-icon
+              small
+              class="mr-2"
+              @click="share(props.item)"
+            >
+              fas fa-share-square
+            </v-icon>
+            <v-icon
+              small
+              class="mr-2"
+              @click="deleteItem(props.item)"
+            >
+              fas fa-download
+            </v-icon>
+            <v-icon
+              small
+              class="mr-2"
+              @click="null"
+            >
+              fas fa-ellipsis-h
+            </v-icon>
+          </td>
+        </template>
+        <template v-slot:no-data>
+          <v-btn color="primary" @click="initialize">Reset</v-btn>
+        </template>
+      </v-data-table>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
-import upload from '@/components/upload'
-import search from '@/components/search'
+import Upload from '@/components/upload'
+import Search from '@/components/search'
 export default {
   name: 'capsule',
   components: {
-    upload,
-    search
+    Upload,
+    Search
   },
   data: () => ({
     topComponentColor: 'info',
     dialog: false,
     drawer: null,
+    sideNav: {
+      mini: true
+    },
     items: [
       {
         model: true, // 是否默认展开
@@ -163,7 +167,7 @@ export default {
       },
       { text: '大小 ', value: 'size' },
       { text: '修改日期 ', value: 'modifiedAt' },
-      { text: 'Hash', value: 'hash' },
+      { text: '文件类型', value: 'fileType' },
       { text: '操作', value: 'name', sortable: false }
     ],
     files: [],
@@ -297,6 +301,10 @@ export default {
     padding-left: 0;
     padding-right: 0;
   }
+  #sideNav {
+    margin-top: 68px !important;
+    width: 4em !important;
+  }
   .list {
     padding: 0;
   }
@@ -311,6 +319,9 @@ export default {
     padding-left: 1em;
   }
   #listGroup:after {
+      background: rgba(0,0,0,0);
+  }
+  #listGroup:before {
       background: rgba(0,0,0,0);
   }
 </style>

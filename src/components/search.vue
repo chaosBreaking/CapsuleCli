@@ -7,9 +7,8 @@
       clearable
       outline
       append-icon="fas fa-search"
-      label="搜索文件名或哈希值"
+      placeholder="搜索文件名或哈希值"
       color='#033'
-      height=45
     >
     </v-text-field>
   </div>
