@@ -1,46 +1,48 @@
 <template>
-  <v-app>
-    <!-- 顶部导航 -->
-    <v-toolbar
-      class="topNav"
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
-      :color='theme.baseColor'
-      :dark='theme.isDark'
-      app
-      fixed>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <span class="hidden-sm-and-down" id="brand">{{ Brand }}</span>
-      </v-toolbar-title>
-      <v-tabs :color='theme.baseColor' align-with-title>
-        <v-tab class="topTab" v-for="tab in tabs" :key="tab.title" :ripple='false' :to='tab.linkTo'>
-          <span>{{ tab.title }}</span>
-        </v-tab>
-      </v-tabs>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>far fa-bell</v-icon>
-      </v-btn>
-      <v-btn :color='theme.btnColor' outline round>
-        创作
-      </v-btn>
-    </v-toolbar>
-    <!-- 主内容 -->
-    <v-content class="white">
-      <v-container fluid fill-height style="padding:1px">
-          <router-view></router-view>
-      </v-container>
-    </v-content>
-    <!-- 右下悬浮控件 -->
-    <v-btn
-      fab
-      bottom
-      right
-      color="pink"
-      dark
-      fixed
-      @click="dialog = !dialog">
-      <v-icon>fas fa-comment-alt</v-icon>
-    </v-btn>
+  <v-app id="vapp">
+    <v-layout column id="appLayout">
+      <!-- 顶部导航 -->
+      <div class="topNav">
+        <v-toolbar
+          id="toolbar"
+          :clipped-left="$vuetify.breakpoint.lgAndUp"
+          :color='theme.baseColor'
+          :dark='theme.isDark'
+          app
+          fixed>
+          <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+            <span class="hidden-sm-and-down" id="brand">{{ Brand }}</span>
+          </v-toolbar-title>
+          <v-tabs :color='theme.baseColor' align-with-title>
+            <v-tab class="topTab" v-for="tab in tabs" :key="tab.title" :ripple='false' :to='tab.linkTo'>
+              <span>{{ tab.title }}</span>
+            </v-tab>
+          </v-tabs>
+          <v-spacer></v-spacer>
+          <v-btn icon>
+            <v-icon>far fa-bell</v-icon>
+          </v-btn>
+          <v-btn :color='theme.btnColor' outline round>
+            创作
+          </v-btn>
+        </v-toolbar>
+      </div>
+      <!-- 主内容 -->
+      <div class="mainContent">
+        <router-view></router-view>
+      </div>
+      <!-- 右下悬浮控件 -->
+      <!-- <v-btn
+        fab
+        bottom
+        right
+        color="pink"
+        dark
+        fixed
+        @click="dialog = !dialog">
+        <v-icon>fas fa-comment-alt</v-icon>
+      </v-btn> -->
+    </v-layout>
     <v-dialog v-model="dialog" width="80%">
       <v-card>
         <v-card-title
@@ -137,9 +139,27 @@ export default {
 }
 </script>
 <style lang="scss">
+  #vapp {
+    height: 100%;
+    width: 100%;
+    #appLayout {
+      height: 100%;
+      width: 100%;
+    }
+  }
   .v-toolbar {
     .v-toolbar__content {
       padding-left: 0;
+    }
+  }
+  .topNav {
+    width:100%;
+    height:64px;
+    min-height: 64px;
+    position: fixed;
+    #toolbar {
+      padding: 0 !important;
+      margin: 0 !important;
     }
   }
   .topTab {
@@ -147,6 +167,13 @@ export default {
       font-size: 16px;
     }
     width: 8em;
+  }
+  .mainContent {
+    width:100%;
+    height:100%;
+    position: fixed;
+    padding-top:64px;
+    clear: both;
   }
   #brand {
     font-weight: 1000;

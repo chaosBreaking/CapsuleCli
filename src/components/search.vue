@@ -5,11 +5,10 @@
       single-line
       hide-details
       clearable
-      outline
-      append-icon="fas fa-search"
       placeholder="搜索文件名或哈希值"
       color='#033'
     >
+    <v-icon class="iconfont" slot="append" style="font-size:1.5em">&#xe665;</v-icon>
     </v-text-field>
   </div>
 </template>

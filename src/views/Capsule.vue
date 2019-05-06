@@ -1,62 +1,81 @@
 <template>
-  <v-container id="container">
+  <div id="capContainer">
     <!-- 侧边导航 -->
-    <v-navigation-drawer
-      class="grey lighten-4"
-      mini-variant
-      id="sideNav"
-      v-model="drawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      fixed
-      app>
-      <v-list dense class="list">
-        <template v-for="item in items">
+    <v-layout column id="sideLayout">
+      <v-navigation-drawer
+        id="sideNav"
+        :class="sideNavStyle.class"
+        mini-variant
+        fixed
+        permanent
+        app>
+        <div id="sideNavList">
+          <div id="sideNavTop">
+            <div v-for="item of sideNavItem.top" :key=item.title id="sideNavItem">
+              <p class="itemLeftBorder"></p>
+              <div class="itemIcon">
+                <i class="iconfont" v-html="item.icon"></i>
+              </div>
+            </div>
+          </div>
+          <div id="sideNavBottom">            
+            <div v-for="item of sideNavItem.bottom" :key=item.title id="sideNavItem" >
+              <p class="itemLeftBorder"></p>
+              <div class="itemIcon">
+                <i class="iconfont" v-html="item.icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </v-navigation-drawer>
+    </v-layout>
+    <!-- 扩展面板 -->
+    <v-layout column id="extendedNav">
+      <div id="extendTitle">
+        <div id="titleMain">
+          <span>全部文件</span>
+        </div>
+        <div id="titleIcon">
+        <v-icon class="iconfont">&#xe61d;</v-icon>
+        </div>
+        <div id="titleIcon">
+        <v-icon class="iconfont">&#xe66d;</v-icon>
+        </div>
+      </div>
+      <div id="folderList">
+        <v-list id="list" dense expand>
           <v-list-group
             id="listGroup"
-            v-if="item.children"
-            :key="item.text"
-            v-model="item.model"
-            :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon=""
+            v-for="item in items"
+            :key="item.title"
+            v-model="item.active"
+            :prepend-icon="item.icon"
+            append-icon="iconfont icon-solid-down"
+            no-action
+            
           >
             <template v-slot:activator>
               <v-list-tile>
                 <v-list-tile-content>
-                  <v-list-tile-title>
-                    {{ item.text }}
-                  </v-list-tile-title>
+                  <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </template>
             <v-list-tile
-              v-for="(child, i) in item.children"
-              :key="i"
+              v-for="subItem in item.children"
+              :key="subItem.title"
             >
-              <v-list-tile-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-tile-action>
               <v-list-tile-content>
-                <v-list-tile-title id='subList'>
-                  {{ child.text }}
-                </v-list-tile-title>
+                <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
               </v-list-tile-content>
+
             </v-list-tile>
           </v-list-group>
-          <v-list-tile v-else :key="item.text">
-            <v-list-tile-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.text }}
-              </v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </template>
-      </v-list>
-    </v-navigation-drawer>
+        </v-list>
+      </div>
+    </v-layout>
     <!-- 主内容 -->
-    <v-layout column>
+    <v-layout column id="mainLayout">
       <v-layout id="topCompLine">
         <v-btn :color='topComponentColor'>
           <v-icon style="font-size:16px;margin-right:0.5em">fas fa-folder-plus</v-icon>
@@ -84,87 +103,110 @@
             <v-icon
               small
               class="mr-2"
-              @click="share(props.item)"
             >
               fas fa-share-square
             </v-icon>
             <v-icon
               small
               class="mr-2"
-              @click="deleteItem(props.item)"
             >
               fas fa-download
             </v-icon>
             <v-icon
               small
               class="mr-2"
-              @click="null"
             >
               fas fa-ellipsis-h
             </v-icon>
           </td>
         </template>
         <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
+          <v-btn color="primary">Reset</v-btn>
         </template>
       </v-data-table>
     </v-layout>
-  </v-container>
+  </div>
 </template>
 
 <script>
 import Upload from '@/components/upload'
 import Search from '@/components/search'
 export default {
-  name: 'capsule',
+  name: 'Capsule',
   components: {
     Upload,
     Search
   },
   data: () => ({
     topComponentColor: 'info',
-    dialog: false,
-    drawer: null,
-    sideNav: {
-      mini: true
+    dialog: true,
+    sideNavStyle: {
+      mini: true,
+      class: 'grey darken-3'
+    },
+    sideNavItem: {
+      top: [
+        {
+          title: '云盘',
+          icon: '&#xe6dc;'
+          },{
+          title: '最近',
+          icon: '&#xe61f;'
+        },{
+          title: '分享',
+          icon: '&#xe64e;'
+        },{
+          title: '回收站',
+          icon: `&#xe685;`
+        }
+      ],
+      bottom: [
+        {
+          title: '云盘',
+          icon: '&#xe651;'
+          },{
+          title: '最近',
+          icon: '&#xe620;'
+        },{
+          title: '回收站',
+          icon: '&#xe771;'
+        }
+      ]
     },
     items: [
       {
+        title: 'folder1',
         model: true, // 是否默认展开
-        icon: 'fas fa-folder-open',
-        'icon-alt': 'fas fa-folder',
+        icon: 'iconfont icon-fileOpen',
+        'icon-alt': 'iconfont icon-fileOpen',
         text: '全部文件',
         children: [
-          { text: '图片' },
-          { text: '文档' },
-          { text: '视频' },
-          { text: '音频' },
-          { text: '种子' },
-          { text: '其他' }
+          { title: '图片' },
+          { title: '文档' },
+          { title: '视频' },
+          { title: '音频' },
+          { title: '种子' },
+          { title: '其他' }
         ]
       },
       {
-        icon: 'fas fa-share-alt',
-        'icon-alt': 'fas fa-share-alt',
+        title: 'folder2',
+        icon: 'iconfont icon-fileOpen',
+        'icon-alt': 'iconfont icon-fileOpen',
         text: '我的分享',
         model: false,
         children: [
-          { text: '图片' },
-          { text: '文档' },
-          { text: '视频' },
-          { text: '音频' },
-          { text: '种子' },
-          { text: '其他' }
+          { title: '图片' },
+          { title: '文档' },
+          { title: '视频' },
+          { title: '音频' },
+          { title: '种子' },
+          { title: '其他' }
         ]
       },
-      { icon: 'fas fa-question-circle', text: '帮助' }
     ],
     headers: [
-      {
-        text: '文件名',
-        sortable: false,
-        value: 'fileName'
-      },
+      { text: '文件名', value: 'fileName', sortable: false },
       { text: '大小 ', value: 'size' },
       { text: '修改日期 ', value: 'modifiedAt' },
       { text: '文件类型', value: 'fileType' },
@@ -295,33 +337,155 @@ export default {
 }
 </script>
 <style lang="scss">
-  #container {
+  #capContainer {
+    display: flex;
     height: 100%;
+    overflow: auto;
     margin: 0;
     padding-left: 0;
     padding-right: 0;
   }
-  #sideNav {
-    margin-top: 68px !important;
-    width: 4em !important;
+  #sideLayout {
+    flex: 0 1 auto;
+    #sideNav {
+      position: relative;
+      // margin-top: 64px !important;
+      height: 100%;
+      width: 4em !important;
+      #sideNavItem {
+        height: 48px;
+        position: relative;
+        text-align: center;
+        color: #fff;
+        padding: 0;
+      }
+      .itemIcon {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor:pointer;
+        .iconfont {
+          font-size: 1.5em;
+          opacity: 0.6;
+        }
+      }
+      .itemLeftBorder {
+        width: 2px;
+        height: 100%;
+        position: absolute;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 0;
+        -webkit-transition: all 200ms ease-in-out;
+        -moz-transition: all 200ms ease-in-out;
+        -o-transition: all 200ms ease-in-out;
+        -ms-transition: all 200ms ease-in-out;
+        transition: all 200ms ease-in-out;
+        border-left: 2px solid rgba(0,0,0,0);
+      }
+    }
+    #sideNavItem:hover {
+      background: rgba(255,255,255,.1);
+      .iconfont {
+        opacity: 1;
+      }
+      .itemLeftBorder {
+        border-color: rgba(255,51,58,1);
+      }
+    }
+    #sideNavList {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      #sideNavTop {
+        width: 100%;
+        flex: 1 0 auto;
+        align-self: flex-start;
+      }
+      #sideNavBottom {
+        width: 100%;
+        flex: 0 1 auto;
+        align-self: flex-end;
+      }
+    }
   }
-  .list {
-    padding: 0;
-  }
-  .fileList {
+  #extendedNav {
+    width: 16em;
+    flex: 0 1 auto;
     height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    #folderList {
+      height: 100%;
+      position: relative;
+      overflow: auto;
+      #list {
+        background: unset;
+        #listGroup::before {
+          background: unset !important;
+        }
+      }
+    }
+    .activeFolder {
+      background: rgba(255,255,255,.8);
+    }
+    #extendTitle {
+      width: 100%;
+      position: relative;
+      height: 2.5em;
+      background: rgba(0,0,0,0.1);
+      display: flex;
+      padding: 0 1em 0 1em;
+      #titleMain{
+        height: 100%;
+        flex: 1 0 auto;
+        font-size: 16px;
+        font-family: source_sans_proregular, Arial;
+        font-weight: 500;
+        color: #3f3f3f;
+        line-height: 2;
+      }
+      #titleIcon{
+        height: 100%;
+        align-self: flex-end;
+        margin: 0 0 0 1em;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 2;
+        cursor:pointer;
+      }
+    }
   }
-  #subList {
-    text-align: center;
+  #folderList::-webkit-scrollbar {
+    width: 6px;
   }
-  #topCompLine {
-    padding-bottom: 2em;
-    padding-left: 1em;
+  #folderList::-webkit-scrollbar-thumb {
+    /*滑块*/
+    border-radius: 10px;
+    background: #868686;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   }
-  #listGroup:after {
-      background: rgba(0,0,0,0);
+  #folderList::-webkit-scrollbar-track {
+    /*轨道*/
+    border-radius: 10px;
+    background: #EDEDED;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   }
-  #listGroup:before {
-      background: rgba(0,0,0,0);
+  #mainLayout {
+    height: 100%;
+    flex: 1 0 auto;
+    .fileList {
+      height: 100%;
+    }
+    #subList {
+      text-align: center;
+    }
+    #topCompLine {
+      padding-bottom: 2em;
+      padding-left: 1em;
+    }
   }
 </style>

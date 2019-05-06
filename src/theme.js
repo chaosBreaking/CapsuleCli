@@ -9,6 +9,6 @@ module.exports = {
     name: 'dark',
     baseColor: 'grey darken-4',
     isDark: true,
-    btnColor: 'info'
+    btnColor: ''
   }
 }
