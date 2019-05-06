@@ -153,10 +153,10 @@ export default {
     }
   }
   .topNav {
+    top: 0;
     width:100%;
     height:64px;
     min-height: 64px;
-    position: fixed;
     #toolbar {
       padding: 0 !important;
       margin: 0 !important;

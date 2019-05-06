@@ -52,10 +52,9 @@
             :prepend-icon="item.icon"
             append-icon="iconfont icon-solid-down"
             no-action
-            
           >
             <template v-slot:activator>
-              <v-list-tile>
+              <v-list-tile id="folderItem">
                 <v-list-tile-content>
                   <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
@@ -191,6 +190,36 @@ export default {
       },
       {
         title: 'folder2',
+        icon: 'iconfont icon-fileOpen',
+        'icon-alt': 'iconfont icon-fileOpen',
+        text: '我的分享',
+        model: false,
+        children: [
+          { title: '图片' },
+          { title: '文档' },
+          { title: '视频' },
+          { title: '音频' },
+          { title: '种子' },
+          { title: '其他' }
+        ]
+      },
+      {
+        title: 'folder3',
+        icon: 'iconfont icon-fileOpen',
+        'icon-alt': 'iconfont icon-fileOpen',
+        text: '我的分享',
+        model: false,
+        children: [
+          { title: '图片' },
+          { title: '文档' },
+          { title: '视频' },
+          { title: '音频' },
+          { title: '种子' },
+          { title: '其他' }
+        ]
+      },
+      {
+        title: 'folder4',
         icon: 'iconfont icon-fileOpen',
         'icon-alt': 'iconfont icon-fileOpen',
         text: '我的分享',
@@ -422,11 +451,24 @@ export default {
       height: 100%;
       position: relative;
       overflow: auto;
+      // display: flex;
+      .v-list__group__header__prepend-icon {
+        display: inline-flex;
+        padding-right: 3px;
+        min-width: 1.5em !important;
+        flex-shrink: 1;
+      }
       #list {
         background: unset;
         #listGroup::before {
           background: unset !important;
         }
+      }
+      #folderItem {
+        height: 2em;
+        line-height: 1em;
+        text-align: left;
+        padding-left: 0;
       }
     }
     .activeFolder {
@@ -460,7 +502,7 @@ export default {
     }
   }
   #folderList::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
   #folderList::-webkit-scrollbar-thumb {
     /*滑块*/
@@ -472,7 +514,7 @@ export default {
     /*轨道*/
     border-radius: 10px;
     background: #EDEDED;
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0);
   }
   #mainLayout {
     height: 100%;
