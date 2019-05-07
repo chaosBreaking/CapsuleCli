@@ -36,22 +36,23 @@
           <span>全部文件</span>
         </div>
         <div id="titleIcon">
-        <v-icon class="iconfont">&#xe61d;</v-icon>
+          <v-icon class="iconfont">&#xe61d;</v-icon>
         </div>
         <div id="titleIcon">
-        <v-icon class="iconfont">&#xe66d;</v-icon>
+          <v-icon class="iconfont">&#xe66d;</v-icon>
         </div>
       </div>
       <div id="folderList">
-        <v-list id="list" dense expand>
+        <v-list id="list" dense expand subheader>
           <v-list-group
             id="listGroup"
             v-for="item in items"
             :key="item.title"
             v-model="item.active"
             :prepend-icon="item.icon"
-            append-icon="iconfont icon-solid-down"
+            append-icon="iconfont icon-down"
             no-action
+            active-class="activeListItem"
           >
             <template v-slot:activator>
               <v-list-tile id="folderItem">
@@ -224,14 +225,6 @@ export default {
         'icon-alt': 'iconfont icon-fileOpen',
         text: '我的分享',
         model: false,
-        children: [
-          { title: '图片' },
-          { title: '文档' },
-          { title: '视频' },
-          { title: '音频' },
-          { title: '种子' },
-          { title: '其他' }
-        ]
       },
     ],
     headers: [
@@ -442,6 +435,7 @@ export default {
     }
   }
   #extendedNav {
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
     width: 16em;
     flex: 0 1 auto;
     height: 100%;
@@ -464,15 +458,19 @@ export default {
           background: unset !important;
         }
       }
+      #listGroup:nth-child(2n+0) {
+        // background: rgba(134,134,134,0.1) !important;
+      }
       #folderItem {
         height: 2em;
         line-height: 1em;
+        font-weight: 300;
         text-align: left;
         padding-left: 0;
       }
     }
-    .activeFolder {
-      background: rgba(255,255,255,.8);
+    .v-list__group__header--active {
+      background: rgba(0,0,0,0.2) !important;
     }
     #extendTitle {
       width: 100%;
@@ -499,22 +497,30 @@ export default {
         line-height: 2;
         cursor:pointer;
       }
+      #titleIcon:active{
+        color:yellow;
+        transform:scale(0.9);
+        -ms-transform:rotate(0.9); 	/* IE 9 */
+        -moz-transform:rotate(0.9); 	/* Firefox */
+        -webkit-transform:rotate(0.9); /* Safari 和 Chrome */
+        -o-transform:rotate(0.9); 	/* Opera */
+      }
     }
-  }
-  #folderList::-webkit-scrollbar {
-    width: 4px;
-  }
-  #folderList::-webkit-scrollbar-thumb {
-    /*滑块*/
-    border-radius: 10px;
-    background: #868686;
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-  }
-  #folderList::-webkit-scrollbar-track {
-    /*轨道*/
-    border-radius: 10px;
-    background: #EDEDED;
-    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0);
+    #folderList::-webkit-scrollbar {
+      width: 4px;
+    }
+    #folderList::-webkit-scrollbar-thumb {
+      /*滑块*/
+      border-radius: 10px;
+      background: #868686;
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    }
+    #folderList::-webkit-scrollbar-track {
+      /*轨道*/
+      border-radius: 10px;
+      background: #EDEDED;
+      -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0);
+    }
   }
   #mainLayout {
     height: 100%;

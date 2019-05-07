@@ -153,6 +153,7 @@ export default {
     }
   }
   .topNav {
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
     top: 0;
     width:100%;
     height:64px;
