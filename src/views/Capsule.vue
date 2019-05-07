@@ -77,17 +77,17 @@
     <!-- 主内容 -->
     <v-layout column id="mainLayout">
       <v-layout id="topCompLine">
+        <Search></Search>
+        <v-spacer></v-spacer>
         <v-btn :color='topComponentColor'>
-          <v-icon style="font-size:16px;margin-right:0.5em">fas fa-folder-plus</v-icon>
-          <span>新建文件夹</span>
+          <v-icon style="font-size:1em;margin-right:0.5em">fas fa-folder-plus</v-icon>
+          <span  style="font-weight:100">新建文件夹</span>
         </v-btn>
         <Upload :color='topComponentColor'></Upload>
         <v-btn :color='topComponentColor'>
-          <i class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe68c;</i>
-          导入
+          <v-icon class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe68c;</v-icon>
+          <span style="font-weight:100">导入</span>
         </v-btn>
-        <v-spacer></v-spacer>
-        <Search></Search>
       </v-layout>
       <v-data-table
         id="fileList"
@@ -138,7 +138,7 @@ export default {
     Search
   },
   data: () => ({
-    topComponentColor: 'info',
+    topComponentColor: 'secondary',
     dialog: true,
     sideNavStyle: {
       mini: true,
@@ -523,17 +523,16 @@ export default {
     }
   }
   #mainLayout {
+    background: rgba(255, 255, 255, 1);
     height: 100%;
     flex: 1 0 auto;
-    .fileList {
-      height: 100%;
-    }
-    #subList {
-      text-align: center;
+    padding-left: 1em;
+    #fileList {
+      padding-top: 1em;
+      flex: 1 0 auto;
     }
     #topCompLine {
-      padding-bottom: 2em;
-      padding-left: 1em;
+      flex: 0 1 auto;
     }
   }
 </style>
