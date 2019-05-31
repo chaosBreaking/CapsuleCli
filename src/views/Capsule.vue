@@ -83,7 +83,7 @@
           <v-icon style="font-size:1em;margin-right:0.5em">fas fa-folder-plus</v-icon>
           <span  style="font-weight:100">新建文件夹</span>
         </v-btn>
-        <Upload :color='topComponentColor'></Upload>
+        <FileSelector :color='topComponentColor'>上传</FileSelector>
         <v-btn :color='topComponentColor'>
           <v-icon class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe68c;</v-icon>
           <span style="font-weight:100">导入</span>
@@ -129,12 +129,12 @@
 </template>
 
 <script>
-import Upload from '@/components/upload'
+import FileSelector from '@/components/fileSelector'
 import Search from '@/components/search'
 export default {
   name: 'Capsule',
   components: {
-    Upload,
+    FileSelector,
     Search
   },
   data: () => ({

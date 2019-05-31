@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn :color='color' @click.stop="showDialog = true" id="uploaderButton">
-      <input type="file" id="fileMain"/>
+      <input type="file" id="fileMain" multiple="multiple"/>
       <i class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe688;</i>
       <span style="font-weight:100">
         <slot></slot>
