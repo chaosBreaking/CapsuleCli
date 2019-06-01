@@ -124,17 +124,20 @@
           <v-btn color="primary">Reset</v-btn>
         </template>
       </v-data-table>
+      <UploadBar></UploadBar>
     </v-layout>
   </div>
 </template>
 
 <script>
 import FileSelector from '@/components/fileSelector'
+import UploadBar from '@/components/uploadBar'
 import Search from '@/components/search'
 export default {
   name: 'Capsule',
   components: {
     FileSelector,
+    UploadBar,
     Search
   },
   data: () => ({

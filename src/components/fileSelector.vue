@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn :color='color' @click.stop="showDialog = true" id="uploaderButton">
-      <input type="file" id="fileMain" multiple="multiple"/>
+      <input type="file" id="fileMain" multiple="multiple" @change="fileChange" ref="fileInput"/>
       <i class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe688;</i>
       <span style="font-weight:100">
         <slot></slot>
@@ -17,7 +17,15 @@ export default {
   },
   data: () => ({
     showDialog: false
-  })
+  }),
+  methods: {
+    fileChange: function () {
+      let size = ~~(this.$refs.fileInput.files[0].size / 1024);
+      let fileName = this.$refs.fileInput.files[0].name
+      let fileType = this.$refs.fileInput.files[0].type
+      this.$emit('upLoad', this.$refs.fileInput.files)
+    }
+  }
 }
 </script>
 
