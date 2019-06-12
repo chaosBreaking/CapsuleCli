@@ -1,53 +1,77 @@
 <template>
   <div id="barDiv">
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
+    <div id="topBar">
+      <div id="topBarLeft">
+        <span id="topBarTitle">传输队列</span>
+      </div>
+      <div id="topBarRight">
+        <i class="iconfont" v-bind:class="{ 'icon-up': mini, 'icon-down': !mini }" @click="miniBarSwitch"></i>
+        <i class="iconfont icon-close1" @click="closeBar"></i>
+      </div>
     </div>
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
+    <div id="miniBar" v-if="mini">
+      正在传输第 3/12 个文件
+      <v-progress-circular
+      :rotate="-90"
+      :size="15"
+      :width="3"
+      :value="progress"
+      color="primary"
+    >
+    </v-progress-circular>
     </div>
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
-    </div>
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
-    </div>
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
-    </div>
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
-    </div>
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
-    </div>
-    <div id="item">
-      <div>file name</div>
-      <div>43KB</div>
-      <div>folder</div>
-      <div>status!</div>
-    </div>
+    <transition name="slide-fade">
+      <div id="barDivMain" class="barDivMain" v-if="!mini">
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+        <div id="item">
+          <div>file name</div>
+          <div>43KB</div>
+          <div>folder</div>
+          <div>status!</div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -57,40 +81,87 @@ export default {
 
   },
   data: () => ({
-
-  })
+    mini: false,
+    progress: 0
+  }),
+  methods: {
+    miniBarSwitch: function () {
+      this.mini = !this.mini
+      setInterval(() => {
+         this.progress = this.progress >= 100 ? 0 :  this.progress + 5
+      }, 1000)
+    },
+    closeBar: function () {
+      this.$emit('close')
+    }
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
   #barDiv {
     position: absolute;
     display: flex;
+    flex-direction: column;
+    left: 4em;
+    bottom: 0;
     width: 16em;
     max-width: 16em;
-    left: 4em;
     max-height: 50%;
-    bottom: 0;
     background: #fff;
+    overflow: hidden;
+  }
+  #barDivMain {
+    position: relative;
+    display: flex;
+    width: 16em;
+    max-width: 16em;
     flex-direction: column;
     overflow: scroll;
     overflow-x: hidden;
     font-size: 1em;
   }
-  #barDiv::-webkit-scrollbar {
+  #barDivMain::-webkit-scrollbar {
     width: 4px;
   }
-  #barDiv::-webkit-scrollbar-thumb {
+  #barDivMain::-webkit-scrollbar-thumb {
     /*滑块*/
     border-radius: 10px;
     background: #868686;
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   }
-  #barDiv::-webkit-scrollbar-track {
+  #barDivMain::-webkit-scrollbar-track {
     /*轨道*/
     border-radius: 10px;
     background: #EDEDED;
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0);
+  }
+  #topBar {
+    font-weight: 800;
+    font-size: 1em;
+    display: inline-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    #topBarTitle {
+      align-self: flex-end;
+      justify-self: flex-end;
+      font-size: 1em;
+      font-weight: 200;
+    }
+    #topBarLeft {
+      flex: 1 1 auto;
+      padding-left: 6px;
+    }
+    #topBarRight {
+      flex: 0 1 auto;
+      padding-left: 6px;
+      padding-right: 6px;
+      i {
+        cursor:pointer;
+        padding-left: 10px;
+      }
+    }
   }
   #item {
     flex: 1 0 auto;
@@ -101,5 +172,19 @@ export default {
     margin: 2px;
     justify-content: center;
     align-content: center;
+  }
+  #miniBar {
+    padding-left: 6px;
+  }
+  .slide-fade-enter-active {
+    transition: all .1s ease-in;
+  }
+  .slide-fade-leave-active {
+    transition: all .1s ease-out;
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateY(10px);
+    opacity: 0;
   }
 </style>

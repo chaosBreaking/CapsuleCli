@@ -84,7 +84,7 @@
           <span  style="font-weight:100">新建文件夹</span>
         </v-btn>
         <FileSelector :color='topComponentColor'>上传</FileSelector>
-        <v-btn :color='topComponentColor'>
+        <v-btn :color='topComponentColor' @click="uploadBarShow = !uploadBarShow">
           <v-icon class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe68c;</v-icon>
           <span style="font-weight:100">导入</span>
         </v-btn>
@@ -124,7 +124,9 @@
           <v-btn color="primary">Reset</v-btn>
         </template>
       </v-data-table>
-      <UploadBar></UploadBar>
+      <transition name="slide-fade">
+        <UploadBar v-if="uploadBarShow" @close="uploadBarShow=false"></UploadBar>
+      </transition>
     </v-layout>
   </div>
 </template>
@@ -143,6 +145,7 @@ export default {
   data: () => ({
     topComponentColor: 'secondary',
     dialog: true,
+    uploadBarShow: true,
     sideNavStyle: {
       mini: true,
       class: 'grey darken-3'
@@ -371,6 +374,7 @@ export default {
     padding-right: 0;
   }
   #sideLayout {
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
     flex: 0 1 auto;
     #sideNav {
       position: relative;
@@ -523,6 +527,17 @@ export default {
       border-radius: 10px;
       background: #EDEDED;
       -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0);
+    }
+    .slide-fade-enter-active {
+      transition: height 2s ease;
+    }
+    .slide-fade-leave-active {
+      transition: all 2s cubic-bezier(1.0, 1, 0, 1.0);
+    }
+    .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */ {
+      transform: translateY(10px);
+      opacity: 0;
     }
   }
   #mainLayout {
