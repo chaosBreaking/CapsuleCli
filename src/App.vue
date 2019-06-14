@@ -11,7 +11,7 @@
           app
           fixed>
           <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-            <span class="hidden-sm-and-down" id="brand">{{ Brand }}</span>
+            <span class="hidden-sm-and-down" id="brand">{{ $t('brand') }}</span>
           </v-toolbar-title>
           <v-tabs :color='theme.baseColor' align-with-title>
             <v-tab class="topTab" v-for="tab in tabs" :key="tab.title" :ripple='false' :to='tab.linkTo'>
@@ -115,7 +115,6 @@
 const theme = require('./theme.js')
 export default {
   data: () => ({
-    Brand: 'Capsule',
     theme: theme.dark,
     dialog: false,
     tabs: [
