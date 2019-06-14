@@ -10,15 +10,17 @@
       </div>
     </div>
     <div id="miniBar" v-if="mini">
-      正在传输第 3/12 个文件
-      <v-progress-circular
-      :rotate="-90"
-      :size="15"
-      :width="3"
-      :value="progress"
-      color="primary"
-    >
-    </v-progress-circular>
+      <div id="prefix">
+        <v-progress-circular
+          :rotate="-90"
+          :size="15"
+          :width="3"
+          :value="progress"
+          color="primary"
+        >
+        </v-progress-circular>
+      </div>
+      <div id="info">正在传输第 3/12 个文件</div>
     </div>
     <transition name="slide-fade">
       <div id="barDivMain" class="barDivMain" v-if="!mini">
@@ -88,7 +90,7 @@ export default {
     miniBarSwitch: function () {
       this.mini = !this.mini
       setInterval(() => {
-         this.progress = this.progress >= 100 ? 0 :  this.progress + 5
+         this.progress = this.progress >= 100 ? 0 :  this.progress + 10
       }, 1000)
     },
     closeBar: function () {
@@ -137,12 +139,14 @@ export default {
     -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0);
   }
   #topBar {
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
     font-weight: 800;
     font-size: 1em;
     display: inline-flex;
     display: flex;
     flex-direction: row;
     align-items: center;
+    background: rgba(0,0,0,0.1);
     #topBarTitle {
       align-self: flex-end;
       justify-self: flex-end;
@@ -174,10 +178,19 @@ export default {
     align-content: center;
   }
   #miniBar {
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    flex-direction: row;
     padding-left: 6px;
+    padding-bottom: 6px;
+    #info {
+      padding-left: 1em;
+    }
   }
   .slide-fade-enter-active {
-    transition: all .1s ease-in;
+    transition: all .1s ease;
   }
   .slide-fade-leave-active {
     transition: all .1s ease-out;

@@ -11,7 +11,37 @@ export default new Router({
     {
       path: '/store',
       name: 'store',
-      component: Capsule
+      component: Capsule,
+      children: [
+        {
+          path: 'cloud',
+          component: () => import(/* webpackChunkName: "about" */ './components/Cloud.vue')
+        },
+        {
+          path: 'recent',
+          component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+        },
+        {
+          path: 'share',
+          component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+        },
+        {
+          path: 'trash',
+          component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+        },
+        {
+          path: 'extension',
+          component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+        },
+        {
+          path: 'configure',
+          component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+        },
+        {
+          path: 'transaction',
+          component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+        },
+      ]
     },
     {
       path: '/home',
