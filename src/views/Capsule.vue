@@ -177,7 +177,7 @@ export default {
         cursor:pointer;
         .iconfont {
           font-size: 1.5em;
-          opacity: 1;
+          opacity: 1 !important;
         }
       }
       .itemLeftBorder {

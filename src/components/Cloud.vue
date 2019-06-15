@@ -96,7 +96,7 @@
         </template>
       </v-data-table>
       <transition name="slide-fade">
-        <UploadBar v-if="uploadBarShow" @close="uploadBarShow=false"></UploadBar>
+        <UploadBar v-show="uploadBarShow" @close="uploadBarShow=false" @activate="activateUploadBar"></UploadBar>
       </transition>
     </v-layout>
   </div>
@@ -106,6 +106,7 @@
 import FileSelector from '@/components/fileSelector'
 import UploadBar from '@/components/uploadBar'
 import Search from '@/components/search'
+import bus from './FileBus'
 export default {
   name: 'Cloud',
   components: {
@@ -114,9 +115,9 @@ export default {
     Search
   },
   data: () => ({
-    topComponentColor: 'secondary',
     dialog: true,
-    uploadBarShow: true,
+    uploadBarShow: false,
+    topComponentColor: 'secondary',
     sideNavStyle: {
       mini: true,
       class: 'grey darken-3'
@@ -251,6 +252,10 @@ export default {
   },
 
   mounted () {
+    // bus.$on('beforeUpload', () => {
+    //   this.uploadBarShow = true
+    //   bus.$emit('uploadReady')
+    // })
     this.initialize()
     this.$router.push('/store/cloud')
   },
@@ -322,6 +327,9 @@ export default {
     },
     sideNavRoute (item) {
       this.$router.push(`/store/${item}`)
+    },
+    activateUploadBar () {
+      this.uploadBarShow = true
     },
     editItem (item) {
       this.editedIndex = this.files.indexOf(item)
@@ -464,6 +472,7 @@ export default {
     height: 100%;
     flex: 1 0 auto;
     padding-left: 1em;
+    overflow: auto;
     #fileList {
       padding-top: 1em;
       flex: 1 0 auto;
@@ -472,4 +481,6 @@ export default {
       flex: 0 1 auto;
     }
   }
+  #mainLayout::-webkit-scrollbar { width: 0 !important }
+  .mainLayout { -ms-overflow-style: none; }
 </style>

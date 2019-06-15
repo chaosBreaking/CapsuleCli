@@ -24,53 +24,9 @@
     </div>
     <transition name="slide-fade">
       <div id="barDivMain" class="barDivMain" v-if="!mini">
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
-        </div>
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
-        </div>
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
-        </div>
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
-        </div>
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
-        </div>
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
-        </div>
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
-        </div>
-        <div id="item">
-          <div>file name</div>
-          <div>43KB</div>
-          <div>folder</div>
-          <div>status!</div>
+        <div id="item" v-for="file in fileStack" :key="file.name">
+          <p>{{ file.name }}</p><br>
+          <p>{{ file.size }}</p>
         </div>
       </div>
     </transition>
@@ -78,14 +34,19 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import bus from './FileBus'
 export default {
   props: {
-
   },
   data: () => ({
     mini: false,
-    progress: 0
+    progress: 0,
+    fileStack: []
   }),
+  mounted () {
+    bus.$once('uploadStart', (files) => this.uploadHandler(files))
+  },
   methods: {
     miniBarSwitch: function () {
       this.mini = !this.mini
@@ -95,6 +56,11 @@ export default {
     },
     closeBar: function () {
       this.$emit('close')
+    },
+    uploadHandler: function (files) {
+      this.$emit('activate')
+      bus.$once('uploadStart', (files) => this.uploadHandler(files))
+      this.fileStack.unshift(...files)
     }
   }
 }

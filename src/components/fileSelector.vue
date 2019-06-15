@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import bus from './FileBus'
 export default {
   props: {
     color: String
@@ -23,7 +24,10 @@ export default {
       let size = ~~(this.$refs.fileInput.files[0].size / 1024);
       let fileName = this.$refs.fileInput.files[0].name
       let fileType = this.$refs.fileInput.files[0].type
-      this.$emit('upLoad', this.$refs.fileInput.files)
+      // bus.$on('uploadReady', () => {
+      //   })
+        bus.$emit('uploadStart', this.$refs.fileInput.files)
+      // bus.$emit('beforeUpload')
     }
   }
 }

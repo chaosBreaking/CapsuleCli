@@ -142,10 +142,12 @@ export default {
     height: 100%;
     width: 100%;
     #appLayout {
+      overflow: hidden;
       height: 100%;
       width: 100%;
     }
   }
+  #vapp::-webkit-scrollbar { width: 0 !important }
   .v-toolbar {
     .v-toolbar__content {
       padding-left: 0;
