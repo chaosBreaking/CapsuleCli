@@ -26,7 +26,7 @@
       <div id="barDivMain" class="barDivMain" v-if="!mini">
         <div id="item" v-for="file in fileStack" :key="file.name">
           <p>{{ file.name }}</p><br>
-          <p>{{ file.size }}</p>
+          <p>{{ sizeOf(file.size) }}</p>
         </div>
       </div>
     </transition>
@@ -47,6 +47,9 @@ export default {
   mounted () {
     bus.$once('uploadStart', (files) => this.uploadHandler(files))
   },
+  computed: {
+
+  },
   methods: {
     miniBarSwitch: function () {
       this.mini = !this.mini
@@ -61,6 +64,12 @@ export default {
       this.$emit('activate')
       bus.$once('uploadStart', (files) => this.uploadHandler(files))
       this.fileStack.unshift(...files)
+    },
+    sizeOf: function (size) {
+      return ((size / 1024) < 1024) ? (size / 1024).toFixed(2) + ' KB'
+          : (size / 1048576 < 1024 ? (size / 1024 / 1024).toFixed(2) + ' MB' 
+          : (size / 1024 /1024/1024 < 1024 ? (size / 1024 /1024/1024).toFixed(2) + ' GB'
+          : (size / 1024 /1024/1024/1024).toFixed(2) +' TB' ))
     }
   }
 }
