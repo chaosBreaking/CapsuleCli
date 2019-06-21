@@ -27,7 +27,7 @@
         <div id="item" v-for="file in fileStack" :key="file.name">
           <div><span>{{ file.name }}</span></div>
           <div><span>{{ sizeOf(file.size) }}</span></div>
-          <div><span>objfolder</span></div>
+          <div><span>{{ file.path }}</span></div>
         </div>
       </div>
     </transition>
@@ -43,10 +43,10 @@ export default {
   data: () => ({
     mini: false,
     progress: 0,
-    fileStack: []
+    fileStack: [],
   }),
   mounted () {
-    bus.$once('uploadStart', (files) => this.uploadHandler(files))
+    bus.$once('uploadStart', files => this.uploadHandler(files))
   },
   computed: {
 
@@ -63,20 +63,21 @@ export default {
     },
     uploadHandler: function (files) {
       this.$emit('activate')
-      bus.$once('uploadStart', (files) => this.uploadHandler(files))
+      bus.$once('uploadStart', files => this.uploadHandler(files))
       this.fileStack.unshift(...files)
     },
     sizeOf: function (size) {
       return ((size / 1024) < 1024) ? (size / 1024).toFixed(2) + 'KB'
-          : (size / 1048576 < 1024 ? (size / 1024 / 1024).toFixed(2) + 'MB' 
-          : (size / 1024 /1024/1024 < 1024 ? (size / 1024 /1024/1024).toFixed(2) + 'GB'
-          : (size / 1024 /1024/1024/1024).toFixed(2) + 'TB'))
+        : (size / 1048576 < 1024 ? (size / 1024 / 1024).toFixed(2) + 'MB'
+        : (size / 1024 /1024/1024 < 1024 ? (size / 1024 /1024/1024).toFixed(2) + 'GB'
+        : (size / 1024 /1024/1024/1024).toFixed(2) + 'TB'))
     }
   }
 }
 </script>
 
 <style lang="scss">
+  $barWidth: 26em;
   $pureWhite: #fff;
   #barDiv {
     position: absolute;
@@ -84,17 +85,18 @@ export default {
     flex-direction: column;
     left: 4em;
     bottom: 0;
-    width: 16em;
-    max-width: 16em;
+    width: $barWidth;
+    max-width: $barWidth;
     max-height: 50%;
     background: $pureWhite;
     overflow: hidden;
+    border-radius: 6px;
   }
   #barDivMain {
     position: relative;
     display: flex;
-    width: 16em;
-    max-width: 16em;
+    width: $barWidth;
+    max-width: $barWidth;
     flex-direction: column;
     overflow: scroll;
     overflow-x: hidden;
