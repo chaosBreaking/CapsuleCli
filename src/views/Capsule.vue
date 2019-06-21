@@ -18,7 +18,7 @@
               </div>
             </div>
           </div>
-          <div id="sideNavBottom">            
+          <div id="sideNavBottom">
             <div v-for="item of sideNavItem.bottom" :key=item.title id="sideNavItem" @click="sideNavRoute(item)" v-bind:class="{sideNavItem_active: activated === item.id}">
               <p class="itemLeftBorder"></p>
               <div class="itemIcon">
@@ -52,17 +52,17 @@ export default {
           id: 'cloud',
           icon: '&#xe6dc;',
           url: '/cloud',
-          },{
+        }, {
           title: '最近',
           id: 'recent',
           icon: '&#xe61f;',
           url: '/recent'
-        },{
+        }, {
           title: '分享',
           id: 'share',
           icon: '&#xe64e;',
           url: '/share'
-        },{
+        }, {
           title: '回收站',
           id: 'trash',
           icon: `&#xe685;`,
@@ -75,12 +75,12 @@ export default {
           id: 'extention',
           icon: '&#xe651;',
           url: '/extension'
-          },{
+        }, {
           title: '设置',
           id: 'configure',
           icon: '&#xe620;',
           url: '/configure'
-        },{
+        }, {
           title: '传输',
           id: 'transaction',
           icon: '&#xe771;',

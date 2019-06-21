@@ -25,8 +25,9 @@
     <transition name="slide-fade">
       <div id="barDivMain" class="barDivMain" v-if="!mini">
         <div id="item" v-for="file in fileStack" :key="file.name">
-          <p>{{ file.name }}</p><br>
-          <p>{{ sizeOf(file.size) }}</p>
+          <div><span>{{ file.name }}</span></div>
+          <div><span>{{ sizeOf(file.size) }}</span></div>
+          <div><span>objfolder</span></div>
         </div>
       </div>
     </transition>
@@ -66,16 +67,17 @@ export default {
       this.fileStack.unshift(...files)
     },
     sizeOf: function (size) {
-      return ((size / 1024) < 1024) ? (size / 1024).toFixed(2) + ' KB'
-          : (size / 1048576 < 1024 ? (size / 1024 / 1024).toFixed(2) + ' MB' 
-          : (size / 1024 /1024/1024 < 1024 ? (size / 1024 /1024/1024).toFixed(2) + ' GB'
-          : (size / 1024 /1024/1024/1024).toFixed(2) +' TB' ))
+      return ((size / 1024) < 1024) ? (size / 1024).toFixed(2) + 'KB'
+          : (size / 1048576 < 1024 ? (size / 1024 / 1024).toFixed(2) + 'MB' 
+          : (size / 1024 /1024/1024 < 1024 ? (size / 1024 /1024/1024).toFixed(2) + 'GB'
+          : (size / 1024 /1024/1024/1024).toFixed(2) + 'TB'))
     }
   }
 }
 </script>
 
 <style lang="scss">
+  $pureWhite: #fff;
   #barDiv {
     position: absolute;
     display: flex;
@@ -85,7 +87,7 @@ export default {
     width: 16em;
     max-width: 16em;
     max-height: 50%;
-    background: #fff;
+    background: $pureWhite;
     overflow: hidden;
   }
   #barDivMain {

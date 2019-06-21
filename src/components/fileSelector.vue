@@ -21,13 +21,11 @@ export default {
   }),
   methods: {
     fileChange: function () {
-      let size = ~~(this.$refs.fileInput.files[0].size / 1024);
-      let fileName = this.$refs.fileInput.files[0].name
-      let fileType = this.$refs.fileInput.files[0].type
-      // bus.$on('uploadReady', () => {
-      //   })
-        bus.$emit('uploadStart', this.$refs.fileInput.files)
-      // bus.$emit('beforeUpload')
+      if (this.$refs.fileInput.files.length === 0) return 0
+      // let size = ~~(this.$refs.fileInput.files[0].size / 1024);
+      // let fileName = this.$refs.fileInput.files[0].name
+      // let fileType = this.$refs.fileInput.files[0].type
+      bus.$emit('uploadStart', this.$refs.fileInput.files)
     }
   }
 }
