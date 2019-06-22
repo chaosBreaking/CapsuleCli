@@ -88,9 +88,9 @@ export default {
     width: $barWidth;
     max-width: $barWidth;
     max-height: 50%;
-    background: $pureWhite;
+    background: #efefef;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 12px;
   }
   #barDivMain {
     position: relative;
@@ -126,6 +126,7 @@ export default {
     flex-direction: row;
     align-items: center;
     background: rgba(0,0,0,0.1);
+    padding: 4px;
     #topBarTitle {
       align-self: flex-end;
       justify-self: flex-end;
