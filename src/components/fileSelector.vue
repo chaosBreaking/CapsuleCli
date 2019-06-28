@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-btn :color='color' @click.stop="showDialog = true" id="uploaderButton">
+  <div class="fsContainer">
+    <v-btn :color='color' depressed small flat  @click.stop="showDialog = true" id="uploaderButton">
       <input type="file" id="fileMain" multiple="multiple" @change="fileChange" ref="fileInput"/>
       <i class="iconfont" style="font-size:20px;margin-right:0.5em">&#xe688;</i>
       <span style="font-weight:100">
@@ -59,6 +59,9 @@ export default {
 </script>
 
 <style>
+  .fsContainer {
+    margin: auto;
+  }
   #uploaderButton {
     padding: 0;
   }

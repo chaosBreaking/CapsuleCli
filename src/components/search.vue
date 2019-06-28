@@ -7,8 +7,10 @@
       clearable
       placeholder="搜索文件名或哈希值"
       color='#033'
+      id="searchBar"
     >
-    <v-icon class="iconfont" slot="prepend" style="font-size:1.5em">&#xe665;</v-icon>
+    <!-- <v-icon class="iconfont" slot="prepend" style="font-size:1.5em">&#xe665;</v-icon> -->
+      <i class="iconfont" slot="prepend" style="font-size:20px;margin: auto">&#xe665;</i>
     </v-text-field>
   </div>
 </template>
@@ -24,13 +26,7 @@ export default {
     width:20em;
     padding-right: 1em;
   }
-  .input {
-    .v-input__slot {
-      min-height: 30px !important;
-      display: flex;
-      margin: auto;
-    }
+  #input {
     margin: auto;
-    height: 46px !important;
   }
 </style>
